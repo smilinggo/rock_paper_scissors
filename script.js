@@ -38,8 +38,23 @@ else {
 }
 }
 
-game();
-game();
-game();
-game();
-game();
+document.createElement("button");
+
+
+const rockButton = document.createElement("button");
+rockButton.innerHTML = "Rock";
+
+const paperButton = document.createElement("button");
+paperButton.innerHTML = "Paper";
+
+const scissorsButton = document.createElement("button");
+scissorsButton.innerHTML = "Scissors";
+
+document.body.appendChild(rockButton);
+document.body.appendChild(paperButton);
+document.body.appendChild(scissorsButton);
+
+
+
+
+
