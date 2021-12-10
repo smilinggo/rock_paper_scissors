@@ -1,45 +1,8 @@
-function game(){
-//Array used to hold possible choices
-const choices = ['rock', 'paper', 'scissors'];
-
-//used for While loop to validate user input is in the choices array
-keepGoing = true
-
-//Initialize userPlay variable to be used in while loop
+let gameResult = ""
 let userPlay = ""
-
-//console.log(example);
-
-// Logic to have computer select rock/paper/scissors
-const computerPlay = choices[Math.floor(Math.random() * choices.length)];
-
-
-//Logic to have user select rock/paper/scissors and validate response
-while (keepGoing) {
-    const userPlayDefault = prompt("Select rock, paper, or scissors: ");
-    userPlay = userPlayDefault.toLocaleLowerCase();
-    if (choices.indexOf(userPlay) == -1) {
-        alert("Bad input, please select rock, paper, or scissors: ");
-    } else {
-        keepGoing = false;  
-    }
-}
-
-//Logic to have function to compare and log winner
-if (computerPlay === 'rock' && userPlay === 'scissors' || computerPlay === 'paper' && userPlay === 'rock' || computerPlay === 'scissors' && userPlay === 'paper'){
-    console.log(`You lose, ${computerPlay} beats ${userPlay}`);
-    
-}
-else if (computerPlay === userPlay) {
-    console.log(`It was tie, you both had ${computerPlay}`)
-}
-else {
-    console.log(`You win, ${userPlay} beats ${computerPlay}`)
-}
-}
-
-document.createElement("button");
-
+let intUserScore = 0
+let intComputerScore = 0
+let intTieScore = 0
 
 const rockButton = document.createElement("button");
 rockButton.innerHTML = "Rock";
@@ -54,7 +17,109 @@ document.body.appendChild(rockButton);
 document.body.appendChild(paperButton);
 document.body.appendChild(scissorsButton);
 
+let userScore = document.createElement("p");
+
+
+let computerScore = document.createElement("p");
+
+
+let tieScore = document.createElement("p");
+
+
+
+document.body.appendChild(userScore);
+document.body.appendChild(computerScore);
+document.body.appendChild(tieScore);
 
 
 
 
+const btns = document.querySelectorAll('button');
+
+btns.forEach(btn => {
+    btn.addEventListener('click', event => {
+        document.getElementById("result_id").remove();
+        userPlay = btn.innerHTML.toLowerCase();
+        game(userPlay)
+    })
+})
+
+function generateText(gameResult) {
+    
+    const resultWindow = document.createElement('p');
+    resultWindow.id = "result_id"
+    const resultText = document.createTextNode(gameResult)
+    resultWindow.appendChild(resultText);
+    console.log(resultText)
+    document.body.appendChild(resultWindow);
+}
+
+function updateScore(winner) {
+    if (intComputerScore < 5 && intUserScore < 5) {
+        if (winner == "User") {
+            intUserScore += 1;
+            userScore.innerHTML = `You have won ${intUserScore} times. `;
+        }
+        else if (winner == "Computer"){
+            intComputerScore += 1;
+            computerScore.innerHTML = `The computer has won ${intComputerScore} time`;
+        }
+        else if (winner == "Tie"){
+            intTieScore += 1;
+            tieScore.innerHTML = `You have tied ${intTieScore} times`;
+        }
+    }
+}
+
+function checkWinner(){
+    if (intComputerScore > 4) {
+        let announceWinner = document.createElement('h1');
+        let announceText = document.createTextNode("You Lose!!");
+        announceWinner.appendChild(announceText);
+        console.log(announceText)
+        document.body.appendChild(announceWinner);
+    }
+    else if (intUserScore > 4) {
+        let announceWinner = document.createElement('h1');
+        let announceText = document.createTextNode("You Win!!");
+        announceWinner.appendChild(announceText);
+        console.log(announceText)
+        document.body.appendChild(announceWinner);
+    }
+}
+
+
+generateText(gameResult);
+
+//Array used to hold possible choices
+const choices = ['rock', 'paper', 'scissors'];
+
+// Logic to have computer select rock/paper/scissors
+
+
+//Logic to have function to compare and log winner
+function game(userPlay) {
+    const computerPlay = choices[Math.floor(Math.random() * choices.length)];
+    
+    if (computerPlay === 'rock' && userPlay === 'scissors' || computerPlay === 'paper' && userPlay === 'rock' || computerPlay === 'scissors' && userPlay === 'paper'){
+        gameResult = (`You lose, ${computerPlay} beats ${userPlay}`);
+        generateText(gameResult);
+        let winner = "Computer";
+        updateScore(winner);
+        checkWinner();
+    }
+    else if (computerPlay === userPlay) {
+        gameResult = (`It was tie, you both had ${computerPlay}`)
+        generateText(gameResult);
+        let winner = "Tie";
+        updateScore(winner);
+        checkWinner();
+    }
+    else {
+        gameResult = (`You win, ${userPlay} beats ${computerPlay}`)
+        generateText(gameResult);
+        let winner = "User";
+        updateScore(winner);
+        checkWinner();
+    }
+}
